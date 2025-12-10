@@ -57,8 +57,7 @@ public class TorchController : MonoBehaviour
         hasTorch = true;
         Debug.Log("Le joueur a récupéré la torche !");
     }
-
-    // ReSharper disable Unity.PerformanceAnalysis
+    
     private void SetTorch(bool on)
     {
         isOn = on;

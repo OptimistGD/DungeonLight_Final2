@@ -4,11 +4,17 @@ public class TorchPickup : MonoBehaviour
 {
     public float pickupDistance = 3f; // distance maximale pour ramasser
     private Transform player;
+    private bool playerInside = false;
+    public GameObject interactionUI;
+
+    public bool isCorrect = false;
 
     void Start()
     {
         // cherche le joueur dans la scène
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        
+        interactionUI.SetActive(false);
     }
 
     void Update()
@@ -17,6 +23,14 @@ public class TorchPickup : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             TryPickup();
+            if (playerInside = true)
+            {
+                isCorrect = false;
+            }
+            else
+            {
+                isCorrect = true;
+            }
         }
     }
 
@@ -37,7 +51,33 @@ public class TorchPickup : MonoBehaviour
             
             Debug.Log("Torche ramassée !");
             Destroy(gameObject); // supprimer l’objet ramassé
+            
 
         }
     }
+    
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerInside = true;
+            isCorrect = true;
+
+            if (interactionUI != null)
+                interactionUI.SetActive(true); // afficher le message
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerInside = false;
+            isCorrect = false;
+
+            if (interactionUI != null)
+                interactionUI.SetActive(false); // cacher le message
+        }
+    }
+    
 }
